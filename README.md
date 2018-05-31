@@ -9,7 +9,8 @@ figure out how they work alone. Sorry.
 
 ## License
 
-*All our work is licensed under GPLv3+*.
+**All our work is licensed under GPLv3+**.
+
 The previous work taken from joatmon08 is licensed under the MIT license, that
 you can find here:
 ```
