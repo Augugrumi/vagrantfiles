@@ -21,7 +21,7 @@ echo "=== INSTALLING OVS DEPENDENCIES ==="
 yum -y install make gcc openssl-devel autoconf automake \
 rpm-build redhat-rpm-config python-devel python-six \
 openssl-devel kernel-devel kernel-debug-devel libtool wget \
-net-tools
+net-tools nano
 if [ $? -ne 0 ]; then
     echo "FAILED TO DOWNLOAD OVS DEPENDENCIES"
     exit 1
@@ -72,6 +72,8 @@ else
         echo "FAILED TO INSTALL DOCKER : ${output}"
         exit 1
     fi
+    echo "=== SETTING DOCKER ==="
+    usermod -aG docker centos
 fi
 
 echo "=== TURNING ON DOCKER ==="
@@ -85,6 +87,14 @@ if [ $? -ne 0 ]; then
 fi
 
 systemctl enable docker
+systemctl start docker
+
+echo "=== PULLING LAST VERSION OF GLEFEVRE/FLOODLIGHT ==="
+docker pull glefevre/floodlight
+if [ $? -ne 0 ]; then
+    echo "FAILED TO PULL LAST IMAGE VERSION OF  GLEFEVRE/FLOODLIGHT"
+    exit 1
+fi
 
 echo "=== INSTALLING OVS-DOCKER ==="
 cd /usr/bin
@@ -102,5 +112,16 @@ if [ -z "${output}" ]; then
     exit 1
 fi
 
+echo "=== INSTALLING NETWORK BOOTSTRAP==="
+cd /vagrant
+mv network_bootstrap.sh /usr/bin/netboot
+chmod +x /usr/bin/netboot
+cd -
+echo "=== CHECKING NETWORK BOOTSTRAP ==="
+output=`ls /usr/bin | grep netboot`
+if [ -z "${output}" ]; then
+    echo "FAILED TO INSTALL NETWORK BOOTSTRAP"
+    exit 1
+fi
 echo "=== BOOTSTRAP COMPLETED SUCCESSFULLY! ==="
 exit 0

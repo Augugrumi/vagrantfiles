@@ -1,0 +1,10 @@
+version: "3"
+services:
+    nginx:
+        build: /vagrant/docker/ping/Dockerfile
+        networks:
+            - none
+        scale: 2
+    floodlight:
+        name: pierrecdn/floodlight:latest
+        restart: always

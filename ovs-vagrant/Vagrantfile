@@ -1,10 +1,13 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+require 'vagrant-aws'
+
 Vagrant.configure("2") do |config|
   # Set up base box as centos/7. Most be at least version 7
   # to use Docker.
-  config.vm.box = "centos/7"
+  config.vm.box = "aws"
+  config.vm.box_url = "https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box"      
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -15,16 +18,26 @@ Vagrant.configure("2") do |config|
   # your network.
   # config.vm.network "public_network"
 
-  # Virtualbox provider-specific configuration
-  config.vm.provider "virtualbox" do |vb|
-     # Display the VirtualBox GUI when booting the machine
-     # vb.gui = true
+  config.vm.provider :aws do |aws, override|
+    aws.access_key_id = ENV['ACCESS_KEY_ID']
+    aws.secret_access_key = ENV['SECRET_ACCESS_KEY']
+    aws.keypair_name = "SDN"
+    aws.instance_type = "t2.micro"
+    aws.security_groups = ["launch-wizard-1"]
+    aws.region = "eu-west-3"
+    aws.tags = {
+        'Name' => 'SDN Vagrant instance'
+    }
 
-     # Customize the amount of memory on the VM:
-     vb.name = "openvswitch"
-     vb.memory = "8192"
+    
+    aws.region_config "eu-west-3", :ami => "ami-bfff49c2"
+    aws.block_device_mapping = [{ 'DeviceName' => '/dev/sda1', 'Ebs.VolumeSize' => 15 }]
+
+
+
+    override.ssh.username = "centos"
+    override.ssh.private_key_path = "/home/davide/Università/Magistrale/Tesi/SDN/AWS/SDN.pem"
   end
-
   # Provision with bootstrap.sh
   config.vm.provision :shell, :path => "bootstrap.sh"
 end
