@@ -25,7 +25,7 @@ function builddocker {
       echo "Failed to create docker image"
       exit 1
   fi
-  echo "=== CUSTOM $1 IMAGES CREATED SUCCESSFULLY"
+  echo "=== CUSTOM $1 IMAGE CREATED SUCCESSFULLY"
   cd -
 }
 
