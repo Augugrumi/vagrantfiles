@@ -30,7 +30,7 @@ Vagrant.configure("2") do |config|
     }
 
     
-    aws.region_config "eu-west-3", :ami => "ami-bfff49c2"
+    aws.region_config "eu-west-3", :ami => ENV['VM_AMI'] || "ami-bfff49c2"
     aws.block_device_mapping = [{ 'DeviceName' => '/dev/sda1', 'Ebs.VolumeSize' => 15 }]
 
 
@@ -39,5 +39,7 @@ Vagrant.configure("2") do |config|
     override.ssh.private_key_path = ENV['SSH_KEY_PATH']
   end
   # Provision with bootstrap.sh
-  config.vm.provision :shell, :path => "bootstrap.sh"
+  if !ENV['VM_AMI']
+    config.vm.provision :shell, :path => "bootstrap.sh"
+  end
 end

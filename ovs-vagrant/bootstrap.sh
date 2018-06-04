@@ -15,6 +15,20 @@ function isactive {
     systemctl start "$@"
   fi
 }
+
+function builddocker {
+  echo "=== CREATING CUSTOM $1 IMAGES ==="
+  cd "/vagrant/docker/$1"
+  docker build -t "polpetta/$1:latest" .
+  output=$?
+  if [ "${output}" -ne "0" ]; then
+      echo "Failed to create docker image"
+      exit 1
+  fi
+  echo "=== CUSTOM $1 IMAGES CREATED SUCCESSFULLY"
+  cd -
+}
+
 yum -y update && yum -y upgrade
 
 echo "=== INSTALLING OVS DEPENDENCIES ==="
@@ -125,13 +139,7 @@ if [ -z "${output}" ]; then
 fi
 echo "=== BOOTSTRAP COMPLETED SUCCESSFULLY! ==="
 
-echo "=== CREATING CUSTOM PING IMAGES ==="
-cd /vagrant/docker/ping/
-output=$(docker build -t polpetta/ping:latest .)
-if [ -z "${output}" ]; then
-    echo "Failed to create docker image"
-    exit 1
-fi
-echo "=== CUSTOM PING IMAGES CREATED SUCCESSFULLY"
-cd -
+builddocker ping
+builddocker floodlight
+
 exit 0
