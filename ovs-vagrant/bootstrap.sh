@@ -124,4 +124,14 @@ if [ -z "${output}" ]; then
     exit 1
 fi
 echo "=== BOOTSTRAP COMPLETED SUCCESSFULLY! ==="
+
+echo "=== CREATING CUSTOM PING IMAGES ==="
+cd /vagrant/docker/ping/
+output=$(docker build -t polpetta/ping:latest .)
+if [ -z "${output}" ]; then
+    echo "Failed to create docker image"
+    exit 1
+fi
+echo "=== CUSTOM PING IMAGES CREATED SUCCESSFULLY"
+cd -
 exit 0

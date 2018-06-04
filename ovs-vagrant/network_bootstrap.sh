@@ -27,11 +27,11 @@ sudo ifconfig ovs-br1 192.168.0.1 netmask 255.255.0.0 up
 check $? "Interal IP added successfully" "Failed to create internal ip"
 ifconfig ovs-br1
 
-msg "Building docker image for pinging the other host..."
-cd /vagrant/docker/ping/
-docker build -t polpetta/ping:latest .
-check $? "Docker image built successfully" "Failed to create docker image"
-cd -
+#~ msg "Building docker image for pinging the other host..."
+#~ cd /vagrant/docker/ping/
+#~ docker build -t polpetta/ping:latest .
+#~ check $? "Docker image built successfully" "Failed to create docker image"
+#~ cd -
 
 msg "Launching containers..."
 docker run -d --name=container1 --net=none polpetta/ping
