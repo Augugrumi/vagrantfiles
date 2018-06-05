@@ -35,7 +35,7 @@ echo "=== INSTALLING OVS DEPENDENCIES ==="
 yum -y install make gcc openssl-devel autoconf automake \
 rpm-build redhat-rpm-config python-devel python-six \
 openssl-devel kernel-devel kernel-debug-devel libtool wget \
-net-tools nano
+net-tools nano git
 if [ $? -ne 0 ]; then
     echo "FAILED TO DOWNLOAD OVS DEPENDENCIES"
     exit 1
