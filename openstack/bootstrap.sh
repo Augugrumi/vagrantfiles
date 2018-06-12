@@ -151,22 +151,6 @@ function main () {
     local readonly NEW_USERNAME="stack"
     local readonly NEW_USERNAME_HOME="/opt/stack"
 
-    if [ "$(getUbuntuVersion)" != "16.04" ]
-    then
-        msg err "This script supports only Ubuntu 16.04 and must be runned with a user called ubuntu"
-    fi
-
-    if [ $(pwd) != "$HOME" ]
-    then
-        msg info "Copying the script in the right location"
-        cp "$0" "$HOME/$(basename $0)"
-        check $? "Failed to copy the script in the right location"
-        rm $0
-        cd $HOME
-        chmod +x "$(basename $0)"
-        ./$(basename $0) $@
-    fi
-
     local branch="master"
     local linkinterface=""
     local install=1
@@ -204,6 +188,21 @@ function main () {
 	    msg err "You MUST set a pastebin url for your local config"
 	fi
     else
+	if [ "$(getUbuntuVersion)" != "16.04" ]
+	then
+            msg err "This script supports only Ubuntu 16.04"
+	fi
+	
+	if [ "$(pwd)" != "$HOME" ]
+	then
+	    msg info "Copying the script in the right $HOME"
+	    cp "$0" "$HOME/$(basename $0)"
+	    check $? "Failed to copy the script in the right location"
+	    rm $0
+	    cd $HOME
+	    chmod +x "$(basename $0)"
+	    ./$(basename $0) $@
+	fi
 	msg info "Launching installation as $LAUNCH_USERNAME"
         echo "$LAUNCH_USERNAME ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/$LAUNCH_USERNAME
         sudo useradd -s /bin/bash -d $NEW_USERNAME_HOME -m $NEW_USERNAME
