@@ -1,0 +1,30 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+require 'vagrant-openstack-provider'
+
+Vagrant.configure('2') do |config|
+  
+  config.vm.box = 'ubuntu/xenial64'
+  config.vm.hostname = 'openstack1604'
+  config.ssh.username = 'ubuntu'
+
+  config.vm.network 'private_network', ip: '192.168.99.100', \
+    virtualbox__intnet: true
+
+  config.vm.provider :openstack do |os|
+    os.openstack_auth_url = ENV['OPENSTACK_URL'] '/v2.0/tokens'
+    os.username           = ENV['OPENSTACK_USR']
+    os.password           = ENV['OPENSTACK_PASS']
+    os.tenant_name        = ENV['OPENSTACK_TENANT']
+    os.flavor             = ENV['OPENSTACK_INSTANCE']
+    os.image              = ENV['OPENSTACK_IMAGE']
+    os.floating_ip_pool   = ENV['OPENSTACK_FLOATING_IP_POOL']
+  end
+
+  config.vm.provision 'file', source: '../bootstrap.sh', \
+                            destination: '/tmp/bootstrap.sh'
+  config.vm.provision "shell",
+    run: "always",
+    inline: "cd /tmp/ && chmod +x bootstrap.sh && su -c './bootstrap.sh -b stable/queens -l enp0s8' vagrant && cd -"
+end
