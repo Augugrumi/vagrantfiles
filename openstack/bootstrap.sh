@@ -95,8 +95,12 @@ Q_PLUGIN=ml2
 Q_AGENT=openvswitch
 
 SWIFT_REPLICAS=1
+SWIFT_HASH=66a3d6b56c1f479c8b4e70ab5c2000f5
 FLOATING_RANGE=$(echo "$myIpAddress" | cut -d"." -f4 --complement).224/27
 FLOAT_INTERFACE=$2
+
+enable_service s-proxy s-object s-container s-account
+enable_service h-eng h-api h-api-cfn h-api-cw
 
 # Disable security groups
 Q_USE_SECGROUP=False
