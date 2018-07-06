@@ -53,7 +53,7 @@ function main () {
     check $? "Failed to start docker"
 
     sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
-    sudo echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list
+    sudo echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" > sudo /etc/apt/sources.list.d/kubernetes.list
 
     install -y "kubelet kubeadm kubectl kubernetes-cni"
     check $? "Failed to install kubernetes"
