@@ -39,7 +39,7 @@ function msg () {
 }
 
 function install () {
-    sudo apt-get upgrade -qq && \
+    sudo apt-get update -qq && \
     sudo apt-get install -y $1
 }
 
