@@ -55,7 +55,7 @@ function main () {
     sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
     sudo bash -c "echo deb http://apt.kubernetes.io/ kubernetes-xenial main > /etc/apt/sources.list.d/kubernetes.list"
 
-    install -y "kubelet kubeadm kubectl kubernetes-cni"
+    install "kubelet kubeadm kubectl kubernetes-cni"
     check $? "Failed to install kubernetes"
     msg info "Kubernetes installed successfully"
 }
