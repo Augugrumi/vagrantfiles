@@ -57,7 +57,7 @@ function main () {
     
     echo -e '[kubernetes]\nname=Kubernetes\nbaseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg\nhttps://packages.cloud.google.com/yum/doc/rpm-package-key.gpg' | sudo tee /etc/yum.repos.d/kubernetes.repo
     
-    install "docker-ce yum-plugin-versionlock kubelet-1.9.9-0 kubeadm-1.9.9-0 kubectl-1.9.9-0""
+    install "docker-ce yum-plugin-versionlock kubelet-1.9.9-0 kubeadm-1.9.9-0 kubectl-1.9.9-0"
     systemctl enable docker && systemctl start docker
     sudo yum versionlock kubelet kubeadm kubectl docker
     
