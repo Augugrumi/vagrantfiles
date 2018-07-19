@@ -26,12 +26,12 @@ function main () {
     install yum-utils
 
     msg info "Adding docker and kubernetes to machine repos..."
-    sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    #sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
     
     echo -e '[kubernetes]\nname=Kubernetes\nbaseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg' | sudo tee /etc/yum.repos.d/kubernetes.repo
 
     msg info "Installing docker and kubernetes"
-    install docker-ce device-mapper-persistent-data lvm2 yum-plugin-versionlock kubelet-1.9.9-0 kubectl-1.9.9-0 kubeadm-1.9.9-0
+    install docker device-mapper-persistent-data lvm2 yum-plugin-versionlock kubelet-1.9.9-0 kubectl-1.9.9-0 kubeadm-1.9.9-0
 
     msg info "Setting up autostart"
     sudo yum versionlock kubelet kubeadm kubectl docker
