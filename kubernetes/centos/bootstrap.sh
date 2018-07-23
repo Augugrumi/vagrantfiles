@@ -33,9 +33,11 @@ function main () {
     msg info "Installing docker and kubernetes"
     install docker device-mapper-persistent-data lvm2 yum-plugin-versionlock kubelet-1.9.9-0 kubectl-1.9.9-0 kubeadm-1.9.9-0
 
-    msg info "Setting up autostart"
+    msg info "Locking updates for kubernetes and docker components"
     sudo yum versionlock kubelet kubeadm kubectl docker
+    msg info "Setting up autostart"
     sudo systemctl enable docker && sudo systemctl start docker
+    sudo systemctl start kubelet && sudo systemctl enable kubelet
     
 }
 
