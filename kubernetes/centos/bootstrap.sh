@@ -22,7 +22,7 @@ function main () {
     msg info "Updating the system"
     update
     
-    sudo sh -c 'echo -e "rbd\nip_vs" >  /etc/modules-load.d/ip_vs.conf'
+    sudo sh -c 'echo -e "rbd\nip_vs\nip_vs_rr\nip_vs_wrr\nip_vs_sh" >  /etc/modules-load.d/ip_vs.conf'
     sudo sh -c 'echo -e "dm_snapshot\ndm_mirror\ndm_thin_pool" >  /etc/modules-load.d/gluster.conf'
 
     msg info "Installing yum-utils"
